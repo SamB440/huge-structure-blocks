@@ -1,12 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "com.convallyria.hugestructureblocks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "structure.StructureBlockAccessor",
+    "structure.StructureBlockUnlimit"
   ],
   "injectors": {
     "defaultRequire": 1
