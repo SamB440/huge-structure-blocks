@@ -4,10 +4,9 @@
   "package": "com.convallyria.hugestructureblocks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  ],
-  "client": [
     "structure.StructureBlockAccessor",
-    "structure.StructureBlockUnlimit"
+    "structure.StructureBlockUnlimit",
+    "packet.ClientUpdateStructureBlockUnlimit"
   ],
   "injectors": {
     "defaultRequire": 1
