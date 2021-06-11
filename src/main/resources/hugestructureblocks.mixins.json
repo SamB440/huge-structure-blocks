@@ -2,11 +2,14 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.convallyria.hugestructureblocks.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "packet.ClientUpdateStructureBlockUnlimit",
     "structure.StructureBlockAccessor",
-    "structure.StructureBlockUnlimit",
-    "packet.ClientUpdateStructureBlockUnlimit"
+    "structure.StructureBlockUnlimit"
+  ],
+  "client": [
+    "structure.StructureBlockRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
