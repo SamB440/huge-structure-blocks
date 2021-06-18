@@ -25,6 +25,9 @@
   "mixins": [
     "hugestructureblocks.mixins.json"
   ],
+  "conflicts": {
+    "carpet": "*"
+  },
 
   "depends": {
     "fabricloader": ">=0.7.4",
