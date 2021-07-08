@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(value = StructureBlockBlockEntityRenderer.class, priority = 999) // Carpet support - let it control render distance
+@Mixin(value = StructureBlockBlockEntityRenderer.class, priority = 999)
 public class StructureBlockRenderMixin {
 
     /**
