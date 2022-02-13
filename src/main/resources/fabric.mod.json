@@ -26,7 +26,6 @@
     "hugestructureblocks.mixins.json"
   ],
   "conflicts": {
-    "carpet": "*",
     "tale-of-kingdoms": "*"
   },
 
