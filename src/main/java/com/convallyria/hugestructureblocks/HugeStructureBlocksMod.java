@@ -1,10 +1,14 @@
 package com.convallyria.hugestructureblocks;
 
-import net.fabricmc.api.ModInitializer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class HugeStructureBlocksMod implements ModInitializer {
+@Mod("hugestructureblocks")
+public class HugeStructureBlocksMod {
 
     public static final String MODID = "hugestructureblocks";
     public static final String NAME = "Huge Structure Blocks";
@@ -12,8 +16,15 @@ public class HugeStructureBlocksMod implements ModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    @Override
-    public void onInitialize() {
+    public HugeStructureBlocksMod() {
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Huge Structure Blocks is now making your structure blocks even bigger!");
     }
 }
