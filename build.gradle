@@ -65,6 +65,8 @@ java {
 }
 
 jar {
+    classifier("fabric")
+
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
