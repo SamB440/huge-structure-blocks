@@ -72,6 +72,10 @@ jar {
     }
 }
 
+remapJar {
+    classifier("fabric")
+}
+
 // configure the maven publication
 publishing {
     publications {
