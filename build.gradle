@@ -168,9 +168,9 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
-}
 
-jar {
+    classifier("forge")
+
     manifest {
         attributes([
                 "Specification-Title"     : "hugestructureblocks",
@@ -183,7 +183,6 @@ jar {
         ])
     }
 }
-
 
 // configure the maven publication
 publishing {
