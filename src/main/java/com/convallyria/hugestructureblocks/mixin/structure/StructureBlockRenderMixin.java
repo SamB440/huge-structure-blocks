@@ -1,11 +1,11 @@
 package com.convallyria.hugestructureblocks.mixin.structure;
 
-import net.minecraft.client.renderer.blockentity.StructureBlockRenderer;
+import net.minecraft.tileentity.StructureBlockTileEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(value = StructureBlockRenderer.class, priority = 999)
+@Mixin(value = StructureBlockTileEntity.class, priority = 999)
 public class StructureBlockRenderMixin {
 
     /**
