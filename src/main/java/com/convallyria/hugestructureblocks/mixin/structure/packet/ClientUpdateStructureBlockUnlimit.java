@@ -1,20 +1,56 @@
 package com.convallyria.hugestructureblocks.mixin.structure.packet;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ServerboundSetStructureBlockPacket;
+import net.minecraft.util.Mth;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ServerboundSetStructureBlockPacket.class, priority = 999)
 public class ClientUpdateStructureBlockUnlimit {
 
-    @ModifyConstant(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", constant = @Constant(intValue = 48), require = 0)
-    public int reinitUpper(int value) {
-        return 512;
+    // I don't like how we have to add int parameters on instead of having a way to change from byte -> int
+    // If anyone knows a better way to do this please make a PR
+
+    @Shadow
+    @Final
+    @Mutable
+    private BlockPos offset;
+
+    @Shadow
+    @Final
+    @Mutable
+    private Vec3i size;
+
+    @Inject(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", at = @At("RETURN"), require = 0)
+    public void readInts(FriendlyByteBuf buf, CallbackInfo ci) {
+        this.offset = new BlockPos(
+                Mth.clamp(buf.readInt(), -512, 512),
+                Mth.clamp(buf.readInt(), -512, 512),
+                Mth.clamp(buf.readInt(), -512, 512)
+        );
+
+        this.size = new BlockPos(
+                Mth.clamp(buf.readInt(), 0, 512),
+                Mth.clamp(buf.readInt(), 0, 512),
+                Mth.clamp(buf.readInt(), 0, 512)
+        );
     }
 
-    @ModifyConstant(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", constant = @Constant(intValue = -48), require = 0)
-    public int reinitLower(int value) {
-        return -512;
+    @Inject(method = "write", at = @At("RETURN"), require = 0)
+    public void writeInts(FriendlyByteBuf buf, CallbackInfo ci) {
+        buf.writeInt(offset.getX());
+        buf.writeInt(offset.getY());
+        buf.writeInt(offset.getZ());
+        buf.writeInt(size.getX());
+        buf.writeInt(size.getY());
+        buf.writeInt(size.getZ());
     }
 }
