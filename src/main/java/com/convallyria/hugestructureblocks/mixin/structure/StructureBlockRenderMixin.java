@@ -1,5 +1,6 @@
 package com.convallyria.hugestructureblocks.mixin.structure;
 
+import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
 import net.minecraft.client.renderer.blockentity.StructureBlockRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -14,6 +15,6 @@ public class StructureBlockRenderMixin {
      */
     @ModifyConstant(method = "getViewDistance", constant = @Constant(intValue = 96), require = 0)
     public int getRenderDistance(int value) {
-        return 256;
+        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE / 2;
     }
 }

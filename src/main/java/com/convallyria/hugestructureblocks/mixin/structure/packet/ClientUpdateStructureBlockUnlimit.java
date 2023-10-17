@@ -1,5 +1,6 @@
 package com.convallyria.hugestructureblocks.mixin.structure.packet;
 
+import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;
@@ -31,16 +32,17 @@ public class ClientUpdateStructureBlockUnlimit {
 
     @Inject(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", at = @At("RETURN"), require = 0)
     public void readInts(FriendlyByteBuf buf, CallbackInfo ci) {
+        final int newStructureSize = HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
         this.offset = new BlockPos(
-                Mth.clamp(buf.readInt(), -512, 512),
-                Mth.clamp(buf.readInt(), -512, 512),
-                Mth.clamp(buf.readInt(), -512, 512)
+                Mth.clamp(buf.readInt(), -newStructureSize, newStructureSize),
+                Mth.clamp(buf.readInt(), -newStructureSize, newStructureSize),
+                Mth.clamp(buf.readInt(), -newStructureSize, newStructureSize)
         );
 
         this.size = new BlockPos(
-                Mth.clamp(buf.readInt(), 0, 512),
-                Mth.clamp(buf.readInt(), 0, 512),
-                Mth.clamp(buf.readInt(), 0, 512)
+                Mth.clamp(buf.readInt(), 0, newStructureSize),
+                Mth.clamp(buf.readInt(), 0, newStructureSize),
+                Mth.clamp(buf.readInt(), 0, newStructureSize)
         );
     }
 
