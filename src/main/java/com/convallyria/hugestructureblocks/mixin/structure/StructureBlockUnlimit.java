@@ -37,7 +37,7 @@ public abstract class StructureBlockUnlimit {
         StructureBlockEntity blockEntity = (StructureBlockEntity) (Object) this;
         final Level level = blockEntity.getLevel();
         if (level == null) return Stream.empty();
-        final BlockPos middle = max.offset(min);
+        final BlockPos middle = blockEntity.getBlockPos();
         List<BlockPos> blocks = new ArrayList<>(2);
         final int maxSearch = detectSize(-1) + 1;
         BlockPos.findClosestMatch(middle, maxSearch, Math.min(maxSearch, level.getHeight() + 1), pos -> {

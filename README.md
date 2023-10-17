@@ -10,7 +10,7 @@ A mod that:
 You can get the latest release from:
 - [GitHub](https://github.com/SamB440/huge-structure-blocks/releases)
 - [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/huge-structure-blocks)
-- [Modrinth](TBA)
+- [Modrinth](https://modrinth.com/mod/huge-structure-blocks)
 
 ## Usage
 
