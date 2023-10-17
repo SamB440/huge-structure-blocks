@@ -1,0 +1,9 @@
+accessWidener v2 named
+accessible method net/minecraft/world/gen/structure/JigsawStructure validate (Lnet/minecraft/world/gen/structure/JigsawStructure;)Lcom/mojang/serialization/DataResult;
+accessible field net/minecraft/world/gen/structure/JigsawStructure startPool Lnet/minecraft/registry/entry/RegistryEntry;
+accessible field net/minecraft/world/gen/structure/JigsawStructure startJigsawName Ljava/util/Optional;
+accessible field net/minecraft/world/gen/structure/JigsawStructure size I
+accessible field net/minecraft/world/gen/structure/JigsawStructure startHeight Lnet/minecraft/world/gen/heightprovider/HeightProvider;
+accessible field net/minecraft/world/gen/structure/JigsawStructure useExpansionHack Z
+accessible field net/minecraft/world/gen/structure/JigsawStructure projectStartToHeightmap Ljava/util/Optional;
+accessible field net/minecraft/world/gen/structure/JigsawStructure maxDistanceFromCenter I

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.4-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -27,6 +27,10 @@ dependencies {
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/hugestructureblocks.accesswidener")
 }
 
 processResources {

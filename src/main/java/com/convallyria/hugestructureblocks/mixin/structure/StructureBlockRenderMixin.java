@@ -1,5 +1,6 @@
 package com.convallyria.hugestructureblocks.mixin.structure;
 
+import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.entity.StructureBlockBlockEntityRenderer;
@@ -17,6 +18,6 @@ public class StructureBlockRenderMixin {
     @ModifyConstant(method = "getRenderDistance", constant = @Constant(intValue = 96), require = 0)
     @Environment(EnvType.CLIENT)
     public int getRenderDistance(int value) {
-        return 256;
+        return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE / 2;
     }
 }

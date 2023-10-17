@@ -13,6 +13,7 @@
     "sources": "https://github.com/SamB440/huge-structure-blocks",
     "issues": "https://github.com/SamB440/huge-structure-blocks/issues"
   },
+  "license": "LGPL-3.0",
 
   "icon": "assets/hugestructureblocks/icon.png",
 
@@ -22,6 +23,7 @@
       "com.convallyria.hugestructureblocks.HugeStructureBlocksMod"
     ]
   },
+  "accessWidener" : "hugestructureblocks.accesswidener",
   "mixins": [
     "hugestructureblocks.mixins.json"
   ],

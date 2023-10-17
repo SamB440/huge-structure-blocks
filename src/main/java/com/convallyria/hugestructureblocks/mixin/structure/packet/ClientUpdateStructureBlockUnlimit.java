@@ -1,5 +1,6 @@
 package com.convallyria.hugestructureblocks.mixin.structure.packet;
 
+import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.UpdateStructureBlockC2SPacket;
 import net.minecraft.util.math.BlockPos;
@@ -31,16 +32,17 @@ public class ClientUpdateStructureBlockUnlimit {
 
     @Inject(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V", at = @At("RETURN"), require = 0)
     public void readInts(PacketByteBuf buf, CallbackInfo ci) {
+        final int newStructureSize = HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
         this.offset = new BlockPos(
-                MathHelper.clamp(buf.readInt(), -512, 512),
-                MathHelper.clamp(buf.readInt(), -512, 512),
-                MathHelper.clamp(buf.readInt(), -512, 512)
+                MathHelper.clamp(buf.readInt(), -newStructureSize, newStructureSize),
+                MathHelper.clamp(buf.readInt(), -newStructureSize, newStructureSize),
+                MathHelper.clamp(buf.readInt(), -newStructureSize, newStructureSize)
         );
 
         this.size = new BlockPos(
-                MathHelper.clamp(buf.readInt(), 0, 512),
-                MathHelper.clamp(buf.readInt(), 0, 512),
-                MathHelper.clamp(buf.readInt(), 0, 512)
+                MathHelper.clamp(buf.readInt(), 0, newStructureSize),
+                MathHelper.clamp(buf.readInt(), 0, newStructureSize),
+                MathHelper.clamp(buf.readInt(), 0, newStructureSize)
         );
     }
 
