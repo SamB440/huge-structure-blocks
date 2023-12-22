@@ -8,6 +8,7 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +16,8 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+
+import java.util.List;
 
 import static net.minecraft.world.level.levelgen.structure.Structure.settingsCodec;
 
@@ -46,7 +49,8 @@ public abstract class JigsawStructureUnlimit {
             return structure.projectStartToHeightmap;
         }), Codec.INT.fieldOf("max_distance_from_center").forGetter(structure -> {
             return structure.maxDistanceFromCenter;
-        })).apply(instance, JigsawStructure::new);
+        }), Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(JigsawStructure::getPoolAliases))
+                .apply(instance, JigsawStructure::new);
     }), JigsawStructure::verifyRange).codec();
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/level/levelgen/structure/Structure$StructureSettings;Lnet/minecraft/core/Holder;ILnet/minecraft/world/level/levelgen/heightproviders/HeightProvider;Z)V", constant = @Constant(intValue = 80), require = 0)
