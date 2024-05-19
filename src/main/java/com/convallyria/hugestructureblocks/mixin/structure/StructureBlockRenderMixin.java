@@ -13,7 +13,7 @@ public class StructureBlockRenderMixin {
      * @reason Increase the distance that the bounding box can be seen up to 256 blocks
      * @author SamB440/Cotander
      */
-    @ModifyConstant(method = "getViewDistance", constant = @Constant(intValue = 96), require = 0)
+    @ModifyConstant(method = "getViewDistance", constant = @Constant(intValue = 96), require = 0, remap = false)
     public int getRenderDistance(int value) {
         return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE / 2;
     }

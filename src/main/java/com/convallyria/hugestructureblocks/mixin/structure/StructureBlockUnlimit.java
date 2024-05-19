@@ -18,12 +18,12 @@ import java.util.stream.Stream;
 @Mixin(value = StructureBlockEntity.class, priority = 999)
 public abstract class StructureBlockUnlimit {
 
-    @ModifyConstant(method = "load", constant = @Constant(intValue = 48), require = 0)
+    @ModifyConstant(method = "loadAdditional", constant = @Constant(intValue = 48), require = 0, remap = false)
     public int readNbtUpper(int value) {
         return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }
 
-    @ModifyConstant(method = "load", constant = @Constant(intValue = -48), require = 0)
+    @ModifyConstant(method = "loadAdditional", constant = @Constant(intValue = -48), require = 0, remap = false)
     public int readNbtLower(int value) {
         return -HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }
@@ -32,7 +32,7 @@ public abstract class StructureBlockUnlimit {
      * @author SamB440
      * @reason Optimise searching of structure blocks by searching from the middle out instead of from min corner to max (and reduce streams).
      */
-    @Overwrite
+    @Overwrite(remap = false)
     private Stream<BlockPos> getRelatedCorners(BlockPos min, BlockPos max) {
         StructureBlockEntity blockEntity = (StructureBlockEntity) (Object) this;
         final Level level = blockEntity.getLevel();
@@ -51,7 +51,7 @@ public abstract class StructureBlockUnlimit {
         return blocks.stream();
     }
 
-    @ModifyConstant(method = "detectSize", constant = @Constant(intValue = 80), require = 0)
+    @ModifyConstant(method = "detectSize", constant = @Constant(intValue = 80), require = 0, remap = false)
     public int detectSize(int value) {
         return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }

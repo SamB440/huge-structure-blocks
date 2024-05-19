@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = JigsawPlacement.class, priority = 999)
 public class JigsawPlacementUnlimit {
 
-    @ModifyConstant(method = "generateJigsaw", constant = @Constant(intValue = 128), require = 0)
+    @ModifyConstant(method = "generateJigsaw", constant = @Constant(intValue = 128), require = 0, remap = false)
     private static int changeMaxGenDistance(int value) {
         return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }

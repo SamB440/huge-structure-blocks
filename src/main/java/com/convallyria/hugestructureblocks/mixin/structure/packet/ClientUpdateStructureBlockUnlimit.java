@@ -20,17 +20,17 @@ public class ClientUpdateStructureBlockUnlimit {
     // I don't like how we have to add int parameters on instead of having a way to change from byte -> int
     // If anyone knows a better way to do this please make a PR
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     @Mutable
     private BlockPos offset;
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     @Mutable
     private Vec3i size;
 
-    @Inject(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", at = @At("RETURN"), require = 0)
+    @Inject(method = "<init>(Lnet/minecraft/network/FriendlyByteBuf;)V", at = @At("RETURN"), require = 0, remap = false)
     public void readInts(FriendlyByteBuf buf, CallbackInfo ci) {
         final int newStructureSize = HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
         this.offset = new BlockPos(
@@ -46,7 +46,7 @@ public class ClientUpdateStructureBlockUnlimit {
         );
     }
 
-    @Inject(method = "write", at = @At("RETURN"), require = 0)
+    @Inject(method = "write", at = @At("RETURN"), require = 0, remap = false)
     public void writeInts(FriendlyByteBuf buf, CallbackInfo ci) {
         buf.writeInt(offset.getX());
         buf.writeInt(offset.getY());
