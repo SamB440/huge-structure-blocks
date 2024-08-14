@@ -2,8 +2,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.133'
-    id 'net.neoforged.gradle.mixin' version '7.0.133'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
+    id 'net.neoforged.gradle.mixin' version '7.0.145'
 }
 
 archivesBaseName = project.archives_base_name
@@ -93,7 +93,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     // Apply Mixin AP
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.6:processor'
 }
 
 processResources {
