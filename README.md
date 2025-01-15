@@ -5,6 +5,7 @@ A mod that:
 - Optimises the corner search algorithm
 - Removes the Jigsaw depth limit
 - Removes the 128 block distance limit from structure features/pools
+- Adds a creative item group for structure block items.
 
 ## Download
 You can get the latest release from:
