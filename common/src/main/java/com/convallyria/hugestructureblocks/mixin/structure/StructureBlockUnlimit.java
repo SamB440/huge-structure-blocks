@@ -18,12 +18,12 @@ import java.util.stream.Stream;
 @Mixin(value = StructureBlockBlockEntity.class, priority = 999)
 public class StructureBlockUnlimit {
 
-    @ModifyConstant(method = "readNbt", constant = @Constant(intValue = 48), require = 0)
+    @ModifyConstant(method = "readData", constant = @Constant(intValue = 48), require = 0)
     public int readNbtUpper(int value) {
         return HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }
 
-    @ModifyConstant(method = "readNbt", constant = @Constant(intValue = -48), require = 0)
+    @ModifyConstant(method = "readData", constant = @Constant(intValue = -48), require = 0)
     public int readNbtLower(int value) {
         return -HugeStructureBlocksMod.NEW_STRUCTURE_SIZE;
     }
