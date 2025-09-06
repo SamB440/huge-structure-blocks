@@ -1,6 +1,8 @@
 package com.convallyria.hugestructureblocks.mixin.structure;
 
 import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
+import com.convallyria.hugestructureblocks.cache.WorldStructureBlockCacheAccessor;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.block.enums.StructureBlockMode;
 import net.minecraft.util.math.BlockPos;
@@ -10,9 +12,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.Comparator;
 import java.util.stream.Stream;
 
 @Mixin(value = StructureBlockBlockEntity.class, priority = 999)
@@ -30,25 +30,29 @@ public class StructureBlockUnlimit {
 
     /**
      * @author SamB440
-     * @reason Optimise searching of structure blocks by searching from the structure block outwards instead of from min corner to max (and reduce streams).
+     * @reason Optimise searching of structure blocks by searching using a cache.
      */
     @Overwrite
     private Stream<BlockPos> streamCornerPos(BlockPos min, BlockPos max) {
-        StructureBlockBlockEntity blockEntity = (StructureBlockBlockEntity) (Object) this;
-        final World level = blockEntity.getWorld();
+        StructureBlockBlockEntity origin = (StructureBlockBlockEntity) (Object)this;
+        String template = origin.getTemplateName();
+        if (template == null) return Stream.empty();
+
+        BlockPos middle = origin.getPos();
+        World level = origin.getWorld();
         if (level == null) return Stream.empty();
-        final BlockPos middle = blockEntity.getPos();
-        List<BlockPos> blocks = new ArrayList<>(2);
-        final int maxSearch = detectSize(-1) + 1;
-        BlockPos.findClosest(middle, maxSearch, Math.min(maxSearch, level.getHeight() + 1), pos -> {
-            if (level.getBlockEntity(pos) instanceof StructureBlockBlockEntity block) {
-                if (block.getMode() == StructureBlockMode.CORNER && Objects.equals(blockEntity.getTemplateName(), block.getTemplateName())) {
-                    blocks.add(block.getPos());
-                }
-            }
-            return blocks.size() == 2;
-        });
-        return blocks.stream();
+
+        WorldStructureBlockCacheAccessor cache = (WorldStructureBlockCacheAccessor) level;
+        return cache.huge_structure_blocks$getStructureBlockCache().getAll()
+                .filter(pos -> !pos.equals(middle))
+                .filter(pos -> pos.isWithinDistance(middle, detectSize(-1) + 1)) // within range
+                .map(level::getBlockEntity)
+                .filter(be -> be instanceof StructureBlockBlockEntity block
+                        && block.getMode() == StructureBlockMode.CORNER
+                        && template.equals(block.getTemplateName()))
+                .map(BlockEntity::getPos)
+                .sorted(Comparator.comparingDouble(pos -> pos.getSquaredDistance(middle)))
+                .limit(2);
     }
 
     @ModifyConstant(method = "detectStructureSize", constant = @Constant(intValue = 80), require = 0)
