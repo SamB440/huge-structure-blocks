@@ -30,6 +30,7 @@ public class BlockEntityMixin {
     @Inject(method = "markRemoved", at = @At("HEAD"))
     private void onSetRemoved(CallbackInfo ci) {
         if ((Object) this instanceof StructureBlockBlockEntity) {
+            if (world.isClient()) return;
             WorldStructureBlockCacheAccessor cache = (WorldStructureBlockCacheAccessor) this.world;
             cache.huge_structure_blocks$getStructureBlockCache().remove(this.pos);
         }
@@ -38,7 +39,7 @@ public class BlockEntityMixin {
     @Inject(method = "cancelRemoval", at = @At("HEAD"))
     private void onCancelRemoval(CallbackInfo ci) {
         if ((Object) this instanceof StructureBlockBlockEntity) {
-            if (!this.removed) return;
+            if (!this.removed || world.isClient()) return;
             WorldStructureBlockCacheAccessor cache = (WorldStructureBlockCacheAccessor) this.world;
             cache.huge_structure_blocks$getStructureBlockCache().add(this.pos);
         }
@@ -47,7 +48,8 @@ public class BlockEntityMixin {
     @Inject(method = "setWorld", at = @At("TAIL"))
     private void onSetWorld(World world, CallbackInfo ci) {
         if ((Object) this instanceof StructureBlockBlockEntity) {
-            WorldStructureBlockCacheAccessor cache = (WorldStructureBlockCacheAccessor) this.world;
+            if (world.isClient()) return;
+            WorldStructureBlockCacheAccessor cache = (WorldStructureBlockCacheAccessor) world;
             cache.huge_structure_blocks$getStructureBlockCache().add(this.pos);
         }
     }
