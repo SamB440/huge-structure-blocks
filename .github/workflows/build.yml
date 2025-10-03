@@ -10,26 +10,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Java
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3
-      - name: make gradle wrapper executable
-        if: ${{ runner.os != 'Windows' }}
-        run: chmod +x ./gradlew
-      - name: build
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4 # Handles Gradle wrapper validation and basic caching
+
+      - name: Build
         run: ./gradlew build
-      - name: Upload NeoForge Artifacts
+
+      - name: Capture build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: neoforge-jar
-          path: neoforge/build/libs/*.jar
-      - name: Upload Fabric Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: fabric-jar
-          path: fabric/build/libs/*.jar
+          name: Artifacts
+          path: |
+            **/build/libs/
+            */build/libs/
