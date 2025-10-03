@@ -3,6 +3,7 @@
 A mod that:
 - Increases maximum structure size to 512 blocks
 - Optimises the corner search algorithm
+  - Maintains a cache of structure block corners that allows for instant resolving.
 - Removes the Jigsaw depth limit
 - Removes the 128 block distance limit from structure features/pools
 - Adds a creative item group for structure block items.
@@ -17,3 +18,5 @@ You can get the latest release from:
 
 Just plop it in your mods folder. You now have huge structure blocks of up to 512 blocks!
 
+### Incompatibilities
+Note that with Carpet mod installed, they override some of our mixins so behaviour may not work as expected.
