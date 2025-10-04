@@ -18,7 +18,7 @@ You can get the latest release from:
 
 | Minecraft Version  | Status                     | Branch                                                                           | Notes                       |
 |--------------------|----------------------------|----------------------------------------------------------------------------------|-----------------------------|
-| **1.21.1**         | 🟢 LTS (Long-Term Support) | [`lts/1.21.1`](https://github.com/SamB440/huge-structure-blocks/tree/ver/1.21.1) | Kept up-to-date with main   |
+| **1.21.1**         | 🟢 LTS (Long-Term Support) | [`lts/1.21.1`](https://github.com/SamB440/huge-structure-blocks/tree/lts/1.21.1) | Kept up-to-date with main   |
 | **1.21.8+**        | 🟢 Latest                  | [`main`](https://github.com/SamB440/huge-structure-blocks/tree/main)             | Latest features and updates |
 | **Older Versions** | 🔴 Unsupported             | —                                                                                | No longer receiving updates |
 
