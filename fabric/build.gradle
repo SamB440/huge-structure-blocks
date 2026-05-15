@@ -35,10 +35,12 @@ dependencies {
 }
 
 processResources {
+    def mcMajorMinor = rootProject.minecraft_version.split('\\.').take(2).join('.')
     inputs.property 'version', project.version
+    inputs.property 'minecraft_version', mcMajorMinor
 
     filesMatching('fabric.mod.json') {
-        expand version: project.version
+        expand version: project.version, minecraft_version: mcMajorMinor
     }
 }
 

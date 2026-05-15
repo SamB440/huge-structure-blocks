@@ -23,7 +23,7 @@ side = "BOTH"
 [[dependencies.hugestructureblocks]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[${minecraft_version},)"
 ordering = "NONE"
 side = "BOTH"
 
