@@ -1,6 +1,6 @@
 package com.convallyria.hugestructureblocks.cache;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,7 @@ public final class StructureBlockCache {
     private final Set<BlockPos> structureBlocks = new HashSet<>();
 
     public void add(BlockPos pos) {
-        structureBlocks.add(pos.toImmutable());
+        structureBlocks.add(pos.immutable());
     }
 
     public void remove(BlockPos pos) {

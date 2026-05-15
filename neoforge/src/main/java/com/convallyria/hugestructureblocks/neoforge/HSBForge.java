@@ -1,11 +1,11 @@
 package com.convallyria.hugestructureblocks.neoforge;
 
 import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -15,21 +15,21 @@ import java.util.function.Supplier;
 @Mod(HugeStructureBlocksMod.MOD_ID)
 public final class HSBForge {
 
-    public static final DeferredRegister<ItemGroup> ITEM_GROUPS = DeferredRegister.create(
-            Registries.ITEM_GROUP,
+    public static final DeferredRegister<CreativeModeTab> ITEM_GROUPS = DeferredRegister.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB,
             HugeStructureBlocksMod.MOD_ID
     );
 
-    public static final Supplier<ItemGroup> STRUCTURE_ITEM_GROUP = ITEM_GROUPS.register("example", () -> ItemGroup.builder()
+    public static final Supplier<CreativeModeTab> STRUCTURE_ITEM_GROUP = ITEM_GROUPS.register("structures", () -> CreativeModeTab.builder()
             //Set the title of the tab. Don't forget to add a translation!
-            .displayName(Text.translatable("itemGroup.hugestructureblocks.structure_items"))
+            .title(Component.translatable("itemGroup.hugestructureblocks.structure_items"))
             //Set the icon of the tab.
             .icon(() -> new ItemStack(Items.STRUCTURE_BLOCK))
             //Add your items to the tab.
-            .entries((params, output) -> {
-                output.add(Items.STRUCTURE_BLOCK);
-                output.add(Items.JIGSAW);
-                output.add(Items.STRUCTURE_VOID);
+            .displayItems((_, output) -> {
+                output.accept(Items.STRUCTURE_BLOCK);
+                output.accept(Items.JIGSAW);
+                output.accept(Items.STRUCTURE_VOID);
             })
             .build()
     );
