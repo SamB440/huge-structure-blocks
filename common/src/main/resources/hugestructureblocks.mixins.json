@@ -6,6 +6,7 @@
   "mixins": [
     "block_entity.BlockEntityMixin",
     "structure.JigsawPlacementUnlimit",
+    "structure.JigsawStructureMaxDistanceUnlimit",
     "structure.JigsawStructureUnlimit",
     "structure.PlaceCommandUnlimit",
     "structure.StructureBlockUnlimit",
