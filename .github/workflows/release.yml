@@ -25,13 +25,13 @@ jobs:
       - name: Build all variants
         run: ./gradlew build
 
-      - name: Collect release jars (exclude -dev, -sources, -javadoc, -shadow)
+      - name: Collect release jars (exclude -dev, -sources, -javadoc, -shadow, -raw)
         run: |
           shopt -s globstar
           mkdir release-jars
           for f in **/build/libs/*.jar; do
             case "$f" in
-              *-dev.jar|*-dev-shadow.jar|*-sources.jar|*-javadoc.jar) ;; # skip
+              *-dev.jar|*-dev-shadow.jar|*-sources.jar|*-javadoc.jar|*-raw.jar) ;; # skip
               *) cp "$f" release-jars/ ;;
             esac
           done
