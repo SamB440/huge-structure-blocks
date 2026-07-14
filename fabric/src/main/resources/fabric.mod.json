@@ -24,7 +24,7 @@
     "hugestructureblocks.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.18",
+    "fabricloader": ">=0.19",
     "minecraft": "~${minecraft_version}",
     "java": ">=25",
     "fabric-api": "*"
