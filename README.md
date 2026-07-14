@@ -20,7 +20,7 @@ You can get the latest release from:
 |--------------------|----------------------------|------------------------------------------------------------------------------------|-----------------------------|
 | **1.21.1**         | 🟢 LTS (Long-Term Support) | [`lts/1.21.1`](https://github.com/SamB440/huge-structure-blocks/tree/lts/1.21.1)   | Kept up-to-date with main   |
 | **1.21.11**        | 🟢 LTS (Long-Term Support) | [`lts/1.21.11`](https://github.com/SamB440/huge-structure-blocks/tree/lts/1.21.11) | Kept up-to-date with main   |
-| **26.1.2**         | 🟢 Latest                  | [`main`](https://github.com/SamB440/huge-structure-blocks/tree/main)               | Latest features and updates |
+| **26.2**           | 🟢 Latest                  | [`main`](https://github.com/SamB440/huge-structure-blocks/tree/main)               | Latest features and updates |
 | **Other Versions** | 🔴 Unsupported             | —                                                                                  | No longer receiving updates |
 
 ## Usage
