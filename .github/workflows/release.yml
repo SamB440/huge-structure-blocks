@@ -13,11 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 17
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4 # Handles Gradle wrapper validation and basic caching
@@ -49,7 +49,7 @@ jobs:
           loaders: fabric
           version-type: release
 
-      - name: Publish Huge Structure Blocks for NeoForge
+      - name: Publish Huge Structure Blocks for Forge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           github-token: ${{ secrets.RELEASES_TOKEN }}
@@ -57,6 +57,6 @@ jobs:
           modrinth-id: AMLtKGdJ
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: 474114
-          files: release-jars/huge-structure-blocks-neoforge-*.jar
-          loaders: neoforge
+          files: release-jars/huge-structure-blocks-forge-*.jar
+          loaders: forge
           version-type: release

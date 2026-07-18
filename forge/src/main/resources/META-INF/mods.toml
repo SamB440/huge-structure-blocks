@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[4,)"
+loaderVersion = "[47,)"
 issueTrackerURL="https://github.com/SamB440/huge-structure-blocks/issues"
 license = "LGPL-3.0"
 
@@ -14,18 +14,17 @@ Structure blocks. But bigger.
 #logoFile = ""
 
 [[dependencies.hugestructureblocks]]
-modId = "neoforge"
+modId = "forge"
 type = "required"
-versionRange = "[21.1,)"
+versionRange = "[47,)"
 ordering = "NONE"
 side = "BOTH"
+mandatory = true
 
 [[dependencies.hugestructureblocks]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,1.21.2)"
+versionRange = "[1.20.1,1.20.2)"
 ordering = "NONE"
 side = "BOTH"
-
-[[mixins]]
-config = "hugestructureblocks.mixins.json"
+mandatory = true

@@ -1,14 +1,15 @@
-package com.convallyria.hugestructureblocks.neoforge;
+package com.convallyria.hugestructureblocks.forge;
 
 import com.convallyria.hugestructureblocks.HugeStructureBlocksMod;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
@@ -16,11 +17,11 @@ import java.util.function.Supplier;
 public final class HSBForge {
 
     public static final DeferredRegister<ItemGroup> ITEM_GROUPS = DeferredRegister.create(
-            Registries.ITEM_GROUP,
+            RegistryKeys.ITEM_GROUP,
             HugeStructureBlocksMod.MOD_ID
     );
 
-    public static final Supplier<ItemGroup> STRUCTURE_ITEM_GROUP = ITEM_GROUPS.register("example", () -> ItemGroup.builder()
+    public static final Supplier<ItemGroup> STRUCTURE_ITEM_GROUP = ITEM_GROUPS.register("structure_items", () -> ItemGroup.create(ItemGroup.Row.TOP, 0)
             //Set the title of the tab. Don't forget to add a translation!
             .displayName(Text.translatable("itemGroup.hugestructureblocks.structure_items"))
             //Set the icon of the tab.
@@ -34,10 +35,11 @@ public final class HSBForge {
             .build()
     );
 
-    public HSBForge(IEventBus modBus) {
+    public HSBForge() {
         // Run our common setup.
         HugeStructureBlocksMod.init();
 
+        final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEM_GROUPS.register(modBus);
     }
 }
