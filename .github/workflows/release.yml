@@ -3,15 +3,92 @@ name: Publish HSB Release
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to (re)publish, e.g. v26.3-1.1.11
+        required: true
+      loader:
+        description: Loader(s) to publish
+        type: choice
+        options: [all, fabric, neoforge]
+        default: all
+      skip_github:
+        description: Skip GitHub release upload
+        type: boolean
+        default: false
+      skip_modrinth:
+        description: Skip Modrinth
+        type: boolean
+        default: false
+      skip_curseforge:
+        description: Skip CurseForge
+        type: boolean
+        default: false
 
 jobs:
   publish:
-    if: "!contains(github.event.release.tag_name, 'SNAPSHOT')"
+    if: "github.event_name == 'workflow_dispatch' || !contains(github.event.release.tag_name, 'SNAPSHOT')"
     runs-on: ubuntu-latest
+    env:
+      # An empty token makes mc-publish skip that platform
+      GITHUB_PUBLISH_TOKEN: ${{ !inputs.skip_github && secrets.RELEASES_TOKEN || '' }}
+      MODRINTH_PUBLISH_TOKEN: ${{ !inputs.skip_modrinth && secrets.MODRINTH_TOKEN || '' }}
+      CURSEFORGE_PUBLISH_TOKEN: ${{ !inputs.skip_curseforge && secrets.CURSEFORGE_TOKEN || '' }}
 
     steps:
+      - name: Validate publishing tokens
+        run: |
+          fail=0
+          report() { # name, http status
+            if [ "$2" = 200 ]; then echo "✅ $1 token OK"; else echo "::error::$1 token rejected (HTTP $2)"; fail=1; fi
+          }
+
+          if [ -n "$GITHUB_PUBLISH_TOKEN" ]; then
+            status=$(curl -sS -o /dev/null -D "$RUNNER_TEMP/gh-headers" -w '%{http_code}' \
+              -H "Authorization: Bearer $GITHUB_PUBLISH_TOKEN" "https://api.github.com/repos/$GITHUB_REPOSITORY")
+            report GitHub "$status"
+            expiry=$(grep -i '^github-authentication-token-expiration:' "$RUNNER_TEMP/gh-headers" | cut -d' ' -f2- | tr -d '\r')
+            if [ -n "$expiry" ]; then
+              days=$(( ($(date -d "$expiry" +%s) - $(date +%s)) / 86400 ))
+              echo "GitHub token expires $expiry ($days days)"
+              [ "$days" -lt 30 ] && echo "::warning::RELEASES_TOKEN expires in $days days"
+            fi
+          fi
+
+          if [ -n "$MODRINTH_PUBLISH_TOKEN" ]; then
+            report Modrinth "$(curl -sS -o /dev/null -w '%{http_code}' \
+              -H "Authorization: $MODRINTH_PUBLISH_TOKEN" https://api.modrinth.com/v2/user)"
+          fi
+
+          if [ -n "$CURSEFORGE_PUBLISH_TOKEN" ]; then
+            report CurseForge "$(curl -sS -o /dev/null -w '%{http_code}' \
+              -H "X-Api-Token: $CURSEFORGE_PUBLISH_TOKEN" https://minecraft.curseforge.com/api/game/version-types)"
+          fi
+
+          exit $fail
+
+      - name: Resolve release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.event.release.tag_name }}
+        run: |
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json name,body > "$RUNNER_TEMP/release.json"
+          delim="EOF_$(openssl rand -hex 8)"
+          {
+            echo "tag=$TAG"
+            echo "version=${TAG#v}"
+            echo "name=$(jq -r .name "$RUNNER_TEMP/release.json")"
+            echo "changelog<<$delim"
+            jq -r .body "$RUNNER_TEMP/release.json"
+            echo "$delim"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.release.outputs.tag }}
 
       - name: Set up JDK 25
         uses: actions/setup-java@v5
@@ -38,25 +115,35 @@ jobs:
           ls -lh release-jars
 
       - name: Publish Huge Structure Blocks for Fabric
+        if: inputs.loader != 'neoforge'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          github-token: ${{ secrets.RELEASES_TOKEN }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ env.GITHUB_PUBLISH_TOKEN }}
+          github-tag: ${{ steps.release.outputs.tag }}
+          modrinth-token: ${{ env.MODRINTH_PUBLISH_TOKEN }}
           modrinth-id: AMLtKGdJ
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-token: ${{ env.CURSEFORGE_PUBLISH_TOKEN }}
           curseforge-id: 474114
+          name: ${{ steps.release.outputs.name }}
+          version: ${{ steps.release.outputs.version }}
+          changelog: ${{ steps.release.outputs.changelog }}
           files: release-jars/huge-structure-blocks-fabric-*.jar
           loaders: fabric
           version-type: release
 
       - name: Publish Huge Structure Blocks for NeoForge
+        if: inputs.loader != 'fabric'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          github-token: ${{ secrets.RELEASES_TOKEN }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ env.GITHUB_PUBLISH_TOKEN }}
+          github-tag: ${{ steps.release.outputs.tag }}
+          modrinth-token: ${{ env.MODRINTH_PUBLISH_TOKEN }}
           modrinth-id: AMLtKGdJ
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-token: ${{ env.CURSEFORGE_PUBLISH_TOKEN }}
           curseforge-id: 474114
+          name: ${{ steps.release.outputs.name }}
+          version: ${{ steps.release.outputs.version }}
+          changelog: ${{ steps.release.outputs.changelog }}
           files: release-jars/huge-structure-blocks-neoforge-*.jar
           loaders: neoforge
           version-type: release
